@@ -1,0 +1,103 @@
+//
+// Protocol buffers definition
+//
+syntax = "proto3";
+package secserver.grpc;
+
+import "google/protobuf/any.proto";
+
+
+message OpenAccountRequest {
+  int64 seqNum = 1;
+  bytes publicKey = 2;
+}
+
+message OpenAccountResponse {
+  bool success = 1;
+  string errorMessage = 2;
+  int64 seqNum = 3;
+}
+
+message SendAmountRequest {
+  bytes publicKeySource = 1;
+  bytes publicKeyDestination = 2;
+  int32 amount = 3;
+  int64 seqNum = 4;
+}
+
+message SendAmountResponse {
+  bool success = 1;
+  string errorMessage = 2;
+  int64 seqNum = 3;
+}
+
+message CheckAccountRequest {
+  int64 seqNum = 1;
+  bytes publicKey = 2;
+}
+
+message Transaction {
+  bytes publicKeySource = 1;
+  int32 amount = 2;
+  int64 seqNum = 3;
+}
+
+message CheckAccountResponse {
+  bool success = 1;
+  int32 balance = 2;
+  repeated Transaction incoming = 3;
+  string errorMessage = 4;
+  int64 seqNum = 5;
+
+}
+
+message ReceiveAmountRequest {
+  int64 seqNum = 1;
+  bytes publicKey = 2;
+}
+
+message ReceiveAmountResponse {
+  bool success = 1;
+  string errorMessage = 2;
+  int64 seqNum = 3;
+}
+
+message AuditRequest {
+  int64 seqNum = 1;
+  bytes publicKey = 2;
+}
+
+message AuditResponse {
+  repeated string audits = 1;
+  bool success = 2;
+  string errorMessage = 3;
+  int64 seqNum = 4;
+}
+
+message SequenceNumberRequest {
+  bytes publicKey = 1;
+  bytes nonce = 2;
+}
+
+message SequenceNumberResponse {
+  int64 seqNum = 1;
+  bytes nonce = 2;
+}
+
+
+message Payload {
+  google.protobuf.Any message = 1;
+  bytes digitalSignature = 2;
+}
+
+
+
+
+service SecServerService {
+  rpc openAccount(Payload) returns (Payload);
+  rpc sendAmount(Payload) returns (Payload);
+  rpc checkAccount(Payload) returns (Payload);
+  rpc receiveAmount(Payload) returns (Payload);
+  rpc audit(Payload) returns (Payload);
+  rpc sequenceNumber(Payload) returns (Payload);
+}
