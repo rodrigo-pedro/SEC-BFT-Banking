@@ -1,5 +1,7 @@
 # SEC - Project Demo
 
+University project for Highly Dependable Systems course at Instituto Superior Técnico (2022).
+
 See project statement [Part 1](SEC-2122_project-stage1_v2.pdf) and [Part 2](SEC-2122_project-stage2.pdf) for more information.
 
 ## 1. Preparation of the environment
